@@ -10,9 +10,13 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 #-----------------------------------------------------------------------
 
 WORKDIR /usr/local
-RUN apt-get update && apt-get install -y libapache2-mod-passenger \
+RUN apt-get update \
+  && apt-get install -y libapache2-mod-passenger \
+       ruby1.9.1-dev build-essential zlib1g-dev \
+       imagemagick libmagickwand-dev libmysqlclient-dev \
   && gem install bundler \
   && wget http://www.redmine.org/releases/redmine-3.0.1.tar.gz
+  && tar xfz redmine-3.0.1.tar.gz
 
 WORKDIR /opt
 COPY assets/cc-init.sh /opt/cc-init.sh
