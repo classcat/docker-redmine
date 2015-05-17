@@ -51,19 +51,36 @@ function put_public_key() {
 #############
 
 function config_mysql () {
-  mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE DATABASE ${MYSQL_OC_DBNAME}"
-  mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE USER '${MYSQL_OC_USERNAME}'@'%' IDENTIFIED BY '${MYSQL_OC_PASSWORD}';"
-  mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "GRANT ALL ON ${MYSQL_OC_DBNAME}.* TO '${MYSQL_OC_USERNAME}'@'%'"
+  echo $MYSQL_ROOT_PASSWORD > /root/mysql_env
+  echo $MYSQL_RM_DBNAME    >> /root/mysql_env
+  echo $MYSQL_RM_USERNAME  >> /root/mysql_env
+  echo $MYSQL_RM_PASSWORD  >> /root/mysql_env
+
+  mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE DATABASE ${MYSQL_RM_DBNAME} CHARACTER SET utf8;"
+  mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE USER '${MYSQL_RM_USERNAME}'@'%' IDENTIFIED BY '${MYSQL_RM_PASSWORD}';"
+  mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "GRANT ALL PRIVILEGES ON ${MYSQL_RM_DBNAME}.* TO '${MYSQL_RM_USERNAME}'@'%'"
 }
 
 
-################
-### OwnCloud ###
-################
+###############
+### Redmine ###
+###############
 
-function config_owncloud () {
-  mkdir -p ${OC_DATA_PATH}
-  chown -R www-data.www-data ${OC_DATA_PATH}
+function config_redmine () {
+  local RM_CONFIG="/usr/local/redmine-3.0.1/config"
+
+  cp -p "${RM_CONFIG}/database.yml.example" "${RM_CONFIG}/database.yml"
+
+  sed -e "s/^\s*database\:\s*.*$/  database: ${MYSQL_RM_DBNAME}/" "${RM_CONFIG}/database.yml"
+  sed -e "s/^\s*host\:\s*.*$/  host: mysql/" "${RM_CONFIG}/database.yml"
+  sed -e "s/^\s*username\:\s*.*$/  username: ${MYSQL_RM_USERNAME}/" "${RM_CONFIG}/database.yml"
+  sed -e "s/^\s*password\:\s*.*$/  password: ${MYSQL_RM_PASSWORD}/" "${RM_CONFIG}/database.yml"
+
+#  database: redmine
+#  host: localhost
+#  username: root
+#  password: ""
+
 }
 
 
@@ -91,8 +108,8 @@ EOF
 init 
 change_root_password
 put_public_key
-#config_mysql
-#config_owncloud
+config_mysql
+config_redmine
 proc_supervisor
 
 exit 0
