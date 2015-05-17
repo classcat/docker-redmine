@@ -15,7 +15,7 @@ RUN apt-get update \
        ruby1.9.1-dev build-essential zlib1g-dev \
        imagemagick libmagickwand-dev libmysqlclient-dev \
   && gem install bundler \
-  && wget http://www.redmine.org/releases/redmine-3.0.1.tar.gz
+  && wget http://www.redmine.org/releases/redmine-3.0.1.tar.gz \
   && tar xfz redmine-3.0.1.tar.gz
 
 WORKDIR /opt
