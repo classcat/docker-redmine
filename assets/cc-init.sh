@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ########################################################################
-# ClassCat/OwnCloud Asset files
+# ClassCat/Redmine Asset files
 # Copyright (C) 2015 ClassCat Co.,Ltd. All rights reserved.
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
-# 17-may-15 : fixed.
+
 #-----------------------------------------------------------------------
 
 
@@ -15,7 +15,7 @@
 ######################
 
 function init () {
-  echo "ClassCat Info >> initialization code for ClassCat/OwnCloud"
+  echo "ClassCat Info >> initialization code for ClassCat/Redmine"
   echo "Copyright (C) 2015 ClassCat Co.,Ltd. All rights reserved."
   echo ""
 }
@@ -91,8 +91,8 @@ EOF
 init 
 change_root_password
 put_public_key
-config_mysql
-config_owncloud
+#config_mysql
+#config_owncloud
 proc_supervisor
 
 exit 0
