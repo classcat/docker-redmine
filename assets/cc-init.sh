@@ -71,10 +71,10 @@ function config_redmine () {
 
   cp -p "${RM_CONFIG}/database.yml.example" "${RM_CONFIG}/database.yml"
 
-  sed -e "s/^\s*database\:\s*.*$/  database: ${MYSQL_RM_DBNAME}/" "${RM_CONFIG}/database.yml"
-  sed -e "s/^\s*host\:\s*.*$/  host: mysql/" "${RM_CONFIG}/database.yml"
-  sed -e "s/^\s*username\:\s*.*$/  username: ${MYSQL_RM_USERNAME}/" "${RM_CONFIG}/database.yml"
-  sed -e "s/^\s*password\:\s*.*$/  password: ${MYSQL_RM_PASSWORD}/" "${RM_CONFIG}/database.yml"
+  sed -i.bak2 -e "s/^\s*database\:\s*.*$/  database: ${MYSQL_RM_DBNAME}/" "${RM_CONFIG}/database.yml"
+  sed -i      -e "s/^\s*host\:\s*.*$/  host: mysql/" "${RM_CONFIG}/database.yml"
+  sed -i      -e "s/^\s*username\:\s*.*$/  username: ${MYSQL_RM_USERNAME}/" "${RM_CONFIG}/database.yml"
+  sed -i      -e "s/^\s*password\:\s*.*$/  password: ${MYSQL_RM_PASSWORD}/" "${RM_CONFIG}/database.yml"
 
 #  database: redmine
 #  host: localhost
