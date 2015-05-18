@@ -6,7 +6,10 @@
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
-
+# 18-may-15 : fixed.
+#--- TODO --------------------------------------------------------------
+# o LANG t.b.supported as an env variable.
+#  RAILS_ENV=production REDMINE_LANG=ja bundle exec rake redmine:load_default_data
 #-----------------------------------------------------------------------
 
 
@@ -51,10 +54,10 @@ function put_public_key() {
 #############
 
 function config_mysql () {
-  echo $MYSQL_ROOT_PASSWORD > /root/mysql_env
-  echo $MYSQL_RM_DBNAME    >> /root/mysql_env
-  echo $MYSQL_RM_USERNAME  >> /root/mysql_env
-  echo $MYSQL_RM_PASSWORD  >> /root/mysql_env
+  # echo $MYSQL_ROOT_PASSWORD > /root/mysql_env
+  # echo $MYSQL_RM_DBNAME    >> /root/mysql_env
+  # echo $MYSQL_RM_USERNAME  >> /root/mysql_env
+  # echo $MYSQL_RM_PASSWORD  >> /root/mysql_env
 
   mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE DATABASE ${MYSQL_RM_DBNAME} CHARACTER SET utf8;"
   mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql -e "CREATE USER '${MYSQL_RM_USERNAME}'@'%' IDENTIFIED BY '${MYSQL_RM_PASSWORD}';"
@@ -69,17 +72,18 @@ function config_mysql () {
 function config_redmine () {
   local RM_CONFIG="/usr/local/redmine-3.0.1/config"
 
+  # - Default -
+  #  database: redmine
+  #  host: localhost
+  #  username: root
+  #  password: ""
+
   cp -p "${RM_CONFIG}/database.yml.example" "${RM_CONFIG}/database.yml"
 
-  sed -i.bak2 -e "s/^\s*database\:\s*.*$/  database: ${MYSQL_RM_DBNAME}/" "${RM_CONFIG}/database.yml"
-  sed -i      -e "s/^\s*host\:\s*.*$/  host: mysql/" "${RM_CONFIG}/database.yml"
+  sed -i.bak2 -e "s/^\s*database\:\s*.*$/  database: ${MYSQL_RM_DBNAME}/"   "${RM_CONFIG}/database.yml"
+  sed -i      -e "s/^\s*host\:\s*.*$/  host: mysql/"                        "${RM_CONFIG}/database.yml"
   sed -i      -e "s/^\s*username\:\s*.*$/  username: ${MYSQL_RM_USERNAME}/" "${RM_CONFIG}/database.yml"
   sed -i      -e "s/^\s*password\:\s*.*$/  password: ${MYSQL_RM_PASSWORD}/" "${RM_CONFIG}/database.yml"
-
-#  database: redmine
-#  host: localhost
-#  username: root
-#  password: ""
 
   cd /usr/local/redmine-3.0.1
   bundle install --without development test
@@ -94,7 +98,6 @@ function config_redmine () {
   chown -R www-data.www-data /usr/local/redmine-3.0.1/tmp
   chown -R www-data.www-data /usr/local/redmine-3.0.1/files
   chown -R www-data.www-data /usr/local/redmine-3.0.1/public/plugin_assets
-
 }
 
 
