@@ -7,6 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 18-may-15 : fixed.
 #-----------------------------------------------------------------------
 
 WORKDIR /usr/local
@@ -20,11 +21,11 @@ RUN apt-get update \
   && chown -R root.root /usr/local/redmine-3.0.1
 
 COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY assets/passenger.conf /etc/apache2/mods-available/passenger.conf
+COPY assets/passenger.conf   /etc/apache2/mods-available/passenger.conf
 
 WORKDIR /opt
 COPY assets/cc-init.sh /opt/cc-init.sh
 
-EXPOSE 22 80 443
+EXPOSE 22 80
 
 CMD /opt/cc-init.sh; /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
