@@ -81,6 +81,20 @@ function config_redmine () {
 #  username: root
 #  password: ""
 
+  cd /usr/local/redmine-3.0.1
+  bundle install --without development test
+  bundle exec rake generate_secret_token
+  RAILS_ENV=production bundle exec rake db:migrate
+  RAILS_ENV=production REDMINE_LANG=ja bundle exec rake redmine:load_default_data
+
+  mv /var/www/html /var/www/html.orig
+  ln -s /usr/local/redmine-3.0.1/public /var/www/html
+
+  chown -R www-data.www-data /usr/local/redmine-3.0.1/log
+  chown -R www-data.www-data /usr/local/redmine-3.0.1/tmp
+  chown -R www-data.www-data /usr/local/redmine-3.0.1/files
+  chown -R www-data.www-data /usr/local/redmine-3.0.1/public/plugin_assets
+
 }
 
 
