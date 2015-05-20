@@ -27,18 +27,37 @@ built on the top of the formal Ubuntu images.
 
 ```
 $ sudo docker pull classcat/redmine
+```
+
+## Requirement
+
+mysql container to link with mysql root password.
 
 ## Usage
 
 ```
-docker run -d --name (container name) \  
+docker run -d --name (container-name) \  
   -p 2022:22 -p 80:80 \  
-  --link mariadb:mysql \  
-  -e ROOT_PASSWORD=(password) \  
+  --link (mysql-container-name):mysql \  
+  -e ROOT_PASSWORD=(root-password) \  
   -e SSH_PUBLIC_KEY="ssh-rsa xxx" \  
-  -e MYSQL_ROOT_PASSWORD=(password) \  
-  -e MYSQL_RM_DBNAME=redmine \  
-  -e MYSQL_RM_USERNAME=redmine \  
-  -e MYSQL_RM_PASSWOR=(password) \  
+  -e MYSQL_ROOT_PASSWORD=(mysql-root-password) \  
+  -e MYSQL_RM_DBNAME=(database-name) \  
+  -e MYSQL_RM_USERNAME=(database-username) \  
+  -e MYSQL_RM_PASSWORD=(database-password) \  
   classcat/redmine
 ```
+
+## Example usage
+
+```
+docker run -d --name redmine -p 2022:22 -p 80:80 \  
+  -e ROOT_PASSWORD=mypassword \  
+  --link mysql:mysql \  
+  -e MYSQL_ROOT_PASSWORD=mysqlpassword \  
+  -e MYSQL_RM_DBNAME=redmine \  
+  -e MYSQL_RM_USERNAME=redmine \  
+  -e MYSQL_RM_PASSWORD=redminepassword \  
+  classcat/redmine
+```
+
