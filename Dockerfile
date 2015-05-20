@@ -7,6 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 20-may-15 : ruby2.1-dev removed.
 # 20-may-15 : trusty
 # 20-may-15 : 3.0.3
 # 18-may-15 : fixed.
@@ -15,7 +16,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 WORKDIR /usr/local
 RUN apt-get update \
   && apt-get install -y libapache2-mod-passenger \
-       ruby1.9.1-dev ruby2.1-dev build-essential zlib1g-dev \
+       ruby1.9.1-dev build-essential zlib1g-dev \
        imagemagick libmagickwand-dev libmysqlclient-dev \
   && gem install bundler \
   && wget http://www.redmine.org/releases/redmine-3.0.3.tar.gz \
