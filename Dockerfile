@@ -1,4 +1,4 @@
-FROM classcat/ubuntu-supervisord3:vivid
+FROM classcat/ubuntu-supervisord3:trusty
 MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 
 ########################################################################
@@ -7,6 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 20-may-15 : trusty
 # 20-may-15 : 3.0.3
 # 18-may-15 : fixed.
 #-----------------------------------------------------------------------
