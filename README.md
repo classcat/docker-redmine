@@ -1,16 +1,21 @@
 # Redmine
 
-Run redmine under the control of supervisor daemon in a docker container.
+## Summary
 
-## Overview
+Dockerized Redmine ( [Redmine](http://www.redmine.org/) ).
+Run Redmine under the control of supervisor daemon in a docker container.
 
 Ubuntu Vivid/Trusty redmine images with :
 
-+ redmine
++ Redmine 3.0.3
 + supervisord
 + sshd
 
 built on the top of the formal Ubuntu images.
+
+## Maintainer
+
+[ClassCat Co.,Ltd.](http://www.classcat.com/) (This website is written in Japanese.)
 
 ## TAGS
 
@@ -24,8 +29,9 @@ built on the top of the formal Ubuntu images.
 $ sudo docker pull classcat/redmine
 
 ## Usage
+
 ```
-docker run -d --name (container name) \
+docker run -d --name (container name) \  
   -p 2022:22 -p 80:80 \  
   --link mariadb:mysql \  
   -e ROOT_PASSWORD=(password) \  

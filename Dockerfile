@@ -7,6 +7,7 @@ MAINTAINER ClassCat Co.,Ltd. <support@classcat.com>
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 20-may-15 : 3.0.3
 # 18-may-15 : fixed.
 #-----------------------------------------------------------------------
 
@@ -16,9 +17,10 @@ RUN apt-get update \
        ruby1.9.1-dev ruby2.1-dev build-essential zlib1g-dev \
        imagemagick libmagickwand-dev libmysqlclient-dev \
   && gem install bundler \
-  && wget http://www.redmine.org/releases/redmine-3.0.1.tar.gz \
-  && tar xfz redmine-3.0.1.tar.gz \
-  && chown -R root.root /usr/local/redmine-3.0.1
+  && wget http://www.redmine.org/releases/redmine-3.0.3.tar.gz \
+  && tar xfz redmine-3.0.3.tar.gz \
+  && chown -R root.root /usr/local/redmine-3.0.3 \
+  && ln -s /usr/local/redmine-3.0.3 /usr/local/redmine
 
 COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY assets/passenger.conf   /etc/apache2/mods-available/passenger.conf

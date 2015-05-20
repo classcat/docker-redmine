@@ -6,6 +6,7 @@
 ########################################################################
 
 #--- HISTORY -----------------------------------------------------------
+# 20-may-15 : 3.0.3
 # 18-may-15 : fixed.
 #--- TODO --------------------------------------------------------------
 # o LANG t.b.supported as an env variable.
@@ -70,7 +71,7 @@ function config_mysql () {
 ###############
 
 function config_redmine () {
-  local RM_CONFIG="/usr/local/redmine-3.0.1/config"
+  local RM_CONFIG="/usr/local/redmine/config"
 
   # - Default -
   #  database: redmine
@@ -85,19 +86,19 @@ function config_redmine () {
   sed -i      -e "s/^\s*username\:\s*.*$/  username: ${MYSQL_RM_USERNAME}/" "${RM_CONFIG}/database.yml"
   sed -i      -e "s/^\s*password\:\s*.*$/  password: ${MYSQL_RM_PASSWORD}/" "${RM_CONFIG}/database.yml"
 
-  cd /usr/local/redmine-3.0.1
+  cd /usr/local/redmine
   bundle install --without development test
   bundle exec rake generate_secret_token
   RAILS_ENV=production bundle exec rake db:migrate
   RAILS_ENV=production REDMINE_LANG=ja bundle exec rake redmine:load_default_data
 
   mv /var/www/html /var/www/html.orig
-  ln -s /usr/local/redmine-3.0.1/public /var/www/html
+  ln -s /usr/local/redmine/public /var/www/html
 
-  chown -R www-data.www-data /usr/local/redmine-3.0.1/log
-  chown -R www-data.www-data /usr/local/redmine-3.0.1/tmp
-  chown -R www-data.www-data /usr/local/redmine-3.0.1/files
-  chown -R www-data.www-data /usr/local/redmine-3.0.1/public/plugin_assets
+  chown -R www-data.www-data /usr/local/redmine/log
+  chown -R www-data.www-data /usr/local/redmine/tmp
+  chown -R www-data.www-data /usr/local/redmine/files
+  chown -R www-data.www-data /usr/local/redmine/public/plugin_assets
 }
 
 
